@@ -44,18 +44,29 @@ export default function HomePage() {
         );
     };
 
+    const clearRoomCode = () => {
+        setRoomCode(null)
+    }
+
     return (
         <Router>
             <Routes>
                 <Route
                     path="/"
                     element={
-                        roomCode ? <Navigate to={`/room/${roomCode}`}/> : renderHomePage()
+                        roomCode ? (
+                            <Navigate to={`/room/${roomCode}`} replace={true}/>
+                        ) : (
+                            renderHomePage()
+                        )
                     }
                 />
                 <Route path="/join" element={<RoomJoinPage/>}/>
                 <Route path="/create" element={<CreateRoomPage/>}/>
-                <Route path="/room/:roomCode" element={<Room/>}/>
+                <Route
+                    path="/room/:roomCode"
+                    element={<Room leaveRoomCallback={clearRoomCode}/>}
+                />
             </Routes>
         </Router>
     );
